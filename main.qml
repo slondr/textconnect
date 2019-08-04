@@ -18,12 +18,15 @@
 import QtQuick 2.13
 import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
+import QtQuick.Controls.Material 2.12
 import Process 1.0 // Defined in "process.h"
 
-Window {
+ApplicationWindow {
     id: mainWindow
     visible: true
-    width: 640 // width and height here are initial values,
+    Material.theme: Material.Dark
+    Material.accent: Material.Purple
+    width: 640  // width and height here are initial values,
     height: 480 // everything is set up to autoscale to smaller or larger values
     title: qsTr("TextConnect")
 
