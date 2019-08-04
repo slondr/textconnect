@@ -37,6 +37,8 @@ Window {
         Button {
             id: sendButton
             text: qsTr("Send")
+            flat: false
+            onClicked: console.log(JSON.stringify({ number: phoneNumberInput.text, body: messageBodyInput.text }))
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 5
             anchors.right: parent.right
@@ -46,6 +48,8 @@ Window {
         }
     }
 }
+
+
 
 
 
