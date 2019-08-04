@@ -48,6 +48,9 @@ Window {
     }
 
     Button {
+        id: sendButton
+        text: qsTr("Send")
+
         Process {
             id: process
             onReadyRead: {
@@ -55,8 +58,6 @@ Window {
             }
         }
 
-        id: sendButton
-        text: qsTr("Send")
         onClicked: {
             const dst = phoneNumberInput.text;
             const msg = `'${messageBodyInput.text}'`;
