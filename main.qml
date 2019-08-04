@@ -36,14 +36,59 @@ Window {
         }
 
         Button {
+            Text {
+                id: buffer
+                visible: false
+            }
+
             Process {
                 id: process
-                onReadyRead: console.log(readAll())
+                onReadyRead: {
+                    console.log(readAll());
+                }
+            }
+
+            Process {
+                id: sendText
+                property string result: "";
+                onReadyRead: {
+                    console.log(readAll());
+                    //                    console.log(buffer.text);
+                    this.result = readAll();
+                    console.log(this.result);
+                }
+            }
+
+            Process {
+                id: dbusDeviceGrabber
+                property string device: "";
+                onReadyRead: {
+                    this.device = readAll();
+                    //                    console.log(buffer.text);
+                    console.log(this.device);
+
+                    sendText.start("kdeconnect-cli", [
+                                       "--device",
+                                       "--send-sms", messageBodyInput.text,
+                                       "--destination", phoneNumberInput.text
+                                   ]);
+
+                    console.log(sendText.result);
+                }
             }
 
             id: sendButton
             text: qsTr("Send")
-            onClicked: process.start("cat", ["/proc/uptime"])
+            onClicked: {
+                process.start("sh", [
+                                  "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --ping`
+                              ]);
+//                dbusDeviceGrabber.start("qdbus", ["org.kde.kdeconnect",
+//                                        "/modules/kdeconnect",
+//                                        "org.kde.kdeconnect.daemon.devices"]);
+
+            }
+
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 5
             anchors.right: parent.right
