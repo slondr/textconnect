@@ -1,46 +1,59 @@
 import QtQuick 2.13
 import QtQuick.Window 2.13
+import QtQuick.Controls 2.13
 
 Window {
     id: mainWindow
     visible: true
     width: 640
     height: 480
-    color: "#272822"
+    // color: "#272822"
     title: qsTr("Hello World")
 
     Column {
         id: column
         anchors.fill: parent
 
-        TextInput {
-            id: numberInput
+        TextField {
+            id: phoneNumberInput
             width: column.width
-            height: 20
-            color: "#ffffff"
-            text: qsTr("Text Input")
-            antialiasing: true
+            placeholderText: "Phone Number"
+            font.pointSize: 14
             anchors.horizontalCenter: parent.horizontalCenter
-            selectionColor: "#800000"
-            horizontalAlignment: Text.AlignLeft
-            renderType: Text.QtRendering
-            font.pixelSize: 12
         }
 
-        TextInput {
-            id: bodyInput
-            width: column.width
-            color: "#ffffff"
-            text: qsTr("Text Input")
-            anchors.bottom: parent.bottom
+        TextArea {
+            id: messageBodyInput
+            placeholderText: "Message body"
+            font.pointSize: 12
             anchors.bottomMargin: 40
-            anchors.top: numberInput.bottom
+            anchors.top: phoneNumberInput.bottom
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
             anchors.topMargin: 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: 12
+        }
+
+        Button {
+            id: sendButton
+            text: qsTr("Send")
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 5
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            anchors.top: messageBodyInput.bottom
+            anchors.topMargin: 5
         }
     }
 }
+
+
+
+
+
+
+
+
 
 /*##^## Designer {
     D{i:3;anchors_height:20;anchors_width:80}D{i:1;anchors_height:400;anchors_width:200}
