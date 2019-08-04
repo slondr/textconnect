@@ -1,18 +1,18 @@
 /* TextConnect
-    Copyright (C) 2019  Eric S. Londres
+   Copyright (C) 2019  Eric S. Londres
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import QtQuick 2.13
@@ -27,55 +27,50 @@ Window {
     height: 480
     title: qsTr("TextConnect")
 
-    Column {
-        id: column
-        anchors.fill: parent
+    TextField {
+        id: phoneNumberInput
+        width: parent.width
+        placeholderText: "Phone Number"
+        font.pointSize: 14
+        anchors.horizontalCenter: parent.horizontalCenter
+    }
 
-        TextField {
-            id: phoneNumberInput
-            width: column.width
-            placeholderText: "Phone Number"
-            font.pointSize: 14
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+    TextArea {
+        id: messageBodyInput
+        placeholderText: "Message body"
+        font.pointSize: 12
+        anchors.bottomMargin: 40
+        anchors.top: phoneNumberInput.bottom
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.topMargin: 0
+    }
 
-        TextArea {
-            id: messageBodyInput
-            placeholderText: "Message body"
-            font.pointSize: 12
-            anchors.bottomMargin: 40
-            anchors.top: phoneNumberInput.bottom
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.topMargin: 0
-        }
-
-        Button {
-            Process {
-                id: process
-                onReadyRead: {
-                    console.log(readAll());
-                }
+    Button {
+        Process {
+            id: process
+            onReadyRead: {
+                console.log(readAll());
             }
-
-            id: sendButton
-            text: qsTr("Send")
-            onClicked: {
-                const dst = phoneNumberInput.text;
-                const msg = `'${messageBodyInput.text}'`;
-                process.start("sh", [
-                                  "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
-                              ]);
-            }
-
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 5
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            anchors.top: messageBodyInput.bottom
-            anchors.topMargin: 5
         }
+
+        id: sendButton
+        text: qsTr("Send")
+        onClicked: {
+            const dst = phoneNumberInput.text;
+            const msg = `'${messageBodyInput.text}'`;
+            process.start("sh", [
+                "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
+            ]);
+        }
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+        anchors.top: messageBodyInput.bottom
+        anchors.topMargin: 5
     }
 }
 
@@ -90,6 +85,6 @@ Window {
 
 
 /*##^## Designer {
-    D{i:3;anchors_height:20;anchors_width:80}D{i:1;anchors_height:400;anchors_width:200}
-}
- ##^##*/
+  D{i:3;anchors_height:20;anchors_width:80}D{i:1;anchors_height:400;anchors_width:200}
+  }
+  ##^##*/
