@@ -17,6 +17,7 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQuickStyle>
 #include "process.h"
 
 int main(int argc, char *argv[])
@@ -25,6 +26,11 @@ int main(int argc, char *argv[])
 
   // Initialize QtQuick app with cmdline arguments
   QGuiApplication app(argc, argv);
+
+  // Set QtQuick style
+  QQuickStyle::setStyle("Material");
+
+  // Initialize ApplicationEngine and load QML script
   QQmlApplicationEngine engine;
   const QUrl url(QStringLiteral("qrc:/main.qml"));
 
