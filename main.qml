@@ -25,8 +25,7 @@ Window {
     visible: true
     width: 640
     height: 480
-    // color: "#272822"
-    title: qsTr("Hello World")
+    title: qsTr("TextConnect")
 
     Column {
         id: column
@@ -53,44 +52,10 @@ Window {
         }
 
         Button {
-            Text {
-                id: buffer
-                visible: false
-            }
-
             Process {
                 id: process
                 onReadyRead: {
                     console.log(readAll());
-                }
-            }
-
-            Process {
-                id: sendText
-                property string result: "";
-                onReadyRead: {
-                    console.log(readAll());
-                    //                    console.log(buffer.text);
-                    this.result = readAll();
-                    console.log(this.result);
-                }
-            }
-
-            Process {
-                id: dbusDeviceGrabber
-                property string device: "";
-                onReadyRead: {
-                    this.device = readAll();
-                    //                    console.log(buffer.text);
-                    console.log(this.device);
-
-                    sendText.start("kdeconnect-cli", [
-                                       "--device",
-                                       "--send-sms", messageBodyInput.text,
-                                       "--destination", phoneNumberInput.text
-                                   ]);
-
-                    console.log(sendText.result);
                 }
             }
 
@@ -102,10 +67,6 @@ Window {
                 process.start("sh", [
                                   "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
                               ]);
-//                dbusDeviceGrabber.start("qdbus", ["org.kde.kdeconnect",
-//                                        "/modules/kdeconnect",
-//                                        "org.kde.kdeconnect.daemon.devices"]);
-
             }
 
             anchors.bottom: parent.bottom
