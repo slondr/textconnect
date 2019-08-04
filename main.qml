@@ -80,8 +80,10 @@ Window {
             id: sendButton
             text: qsTr("Send")
             onClicked: {
+                const dst = phoneNumberInput.text;
+                const msg = messageBodyInput.text;
                 process.start("sh", [
-                                  "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --ping`
+                                  "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
                               ]);
 //                dbusDeviceGrabber.start("qdbus", ["org.kde.kdeconnect",
 //                                        "/modules/kdeconnect",
