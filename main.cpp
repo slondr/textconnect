@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+  // Initialize QtQuick app with cmdline arguments
   QGuiApplication app(argc, argv);
-
   QQmlApplicationEngine engine;
   const QUrl url(QStringLiteral("qrc:/main.qml"));
 
@@ -38,5 +38,6 @@ int main(int argc, char *argv[])
 			 }, Qt::QueuedConnection);
   engine.load(url);
 
+  // Run program
   return app.exec();
 }
