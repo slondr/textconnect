@@ -1,6 +1,7 @@
 import QtQuick 2.13
 import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
+import Process 1.0
 
 Window {
     id: mainWindow
@@ -35,10 +36,14 @@ Window {
         }
 
         Button {
+            Process {
+                id: process
+                onReadyRead: console.log(readAll())
+            }
+
             id: sendButton
             text: qsTr("Send")
-            flat: false
-            onClicked: console.log(JSON.stringify({ number: phoneNumberInput.text, body: messageBodyInput.text }))
+            onClicked: process.start("cat", ["/proc/uptime"])
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 5
             anchors.right: parent.right
