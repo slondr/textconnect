@@ -18,15 +18,18 @@
 import QtQuick 2.13
 import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
-import Process 1.0
+import Process 1.0 // Defined in "process.h"
 
 Window {
     id: mainWindow
     visible: true
-    width: 640
-    height: 480
+    width: 640 // width and height here are initial values,
+    height: 480 // everything is set up to autoscale to smaller or larger values
     title: qsTr("TextConnect")
 
+    /** phoneNumberInput
+     * Component to get the destination phone number from the user.
+     */
     TextField {
         id: phoneNumberInput
         width: parent.width
@@ -35,11 +38,14 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
+    /** messageBodyInput
+     * Component to get the message to send from the user.
+     */
     TextArea {
         id: messageBodyInput
         placeholderText: "Message body"
         font.pointSize: 12
-        anchors.bottomMargin: 40
+        anchors.bottomMargin: 40 // To make room for the send button
         anchors.top: phoneNumberInput.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -47,10 +53,19 @@ Window {
         anchors.topMargin: 0
     }
 
+    /** sendButton
+     * Contains all logic related to sending the message, and presents the user
+     * with a single button to click to perform the sending action.
+     */
     Button {
         id: sendButton
         text: qsTr("Send")
 
+	/** process
+	 * Implements the component defined in "process.h". Abstracts QProcess
+	 * to allow for arbitrary command execution, and prints all output
+	 * (stdout and stderr) to the program's stdout.
+	 */
         Process {
             id: process
             onReadyRead: {
@@ -59,13 +74,27 @@ Window {
         }
 
         onClicked: {
-            const dst = phoneNumberInput.text;
+            const dst = phoneNumberInput.text; // destination phone number
+	    
+	    /* Adds single-quotes around message body to avoid parsing the string
+	       and account for spaces.
+	    */
             const msg = `'${messageBodyInput.text}'`;
+	    
+	    /* The arguments to process.start() are hardcoded right now because
+	     * it's the easiest way to do it and also relatively stable.
+	     * However, this method does introduce some issues when the message
+	     * contains a single-quote or certain other characters that end up
+	     * getting parsed by the shell. Also, is isn't particularly future-
+	     * proof, and only functions correctly when only a single device
+	     * is paired to the user's machine.
+	     */
             process.start("sh", [
                 "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
             ]);
         }
 
+	// layout
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
         anchors.right: parent.right
