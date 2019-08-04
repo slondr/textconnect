@@ -14,7 +14,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
 import QtQuick 2.13
 import QtQuick.Window 2.13
 import QtQuick.Controls 2.13
@@ -55,18 +54,16 @@ Window {
             Process {
                 id: process
                 onReadyRead: {
-                    console.log(readAll());
+                    console.log(readAll())
                 }
             }
 
             id: sendButton
             text: qsTr("Send")
             onClicked: {
-                const dst = phoneNumberInput.text;
-                const msg = `'${messageBodyInput.text}'`;
-                process.start("sh", [
-                                  "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
-                              ]);
+                var dst = phoneNumberInput.text
+                var msg =
+                        process.start("sh", ["-c", ])
             }
 
             anchors.bottom: parent.bottom
@@ -79,17 +76,8 @@ Window {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 /*##^## Designer {
     D{i:3;anchors_height:20;anchors_width:80}D{i:1;anchors_height:400;anchors_width:200}
 }
  ##^##*/
+
