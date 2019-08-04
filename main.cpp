@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
+    // Expose QProcess module to QML
     qmlRegisterType<Process>("Process", 1, 0, "Process");
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
