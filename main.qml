@@ -79,17 +79,12 @@ ApplicationWindow {
         onClicked: {
             const dst = phoneNumberInput.text; // destination phone number
 	    
-	    /* Adds single-quotes around message body to avoid parsing the string
-	       and account for spaces.
-	    */
+            /* Adds backslashes before each character to avoid parsing the string
+             * and account for spaces.
+             */
             var msg = '';
-            messageBodyInput.text.split('').forEach(function(val) {
-                msg += "\\" + val;
-            });
+            messageBodyInput.text.split('').forEach(val => msg += `\\${val}`);
 
-            console.log(msg);
-
-	    
 	    /* The arguments to process.start() are hardcoded right now because
 	     * it's the easiest way to do it and also relatively stable.
 	     * However, this method does introduce some issues when the message
