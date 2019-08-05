@@ -82,7 +82,13 @@ ApplicationWindow {
 	    /* Adds single-quotes around message body to avoid parsing the string
 	       and account for spaces.
 	    */
-            const msg = `'${messageBodyInput.text}'`;
+            var msg = '';
+            messageBodyInput.text.split('').forEach(function(val) {
+                msg += "\\" + val;
+            });
+
+            console.log(msg);
+
 	    
 	    /* The arguments to process.start() are hardcoded right now because
 	     * it's the easiest way to do it and also relatively stable.
