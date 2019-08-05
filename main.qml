@@ -87,11 +87,8 @@ ApplicationWindow {
 
 	    /* The arguments to process.start() are hardcoded right now because
 	     * it's the easiest way to do it and also relatively stable.
-	     * However, this method does introduce some issues when the message
-	     * contains a single-quote or certain other characters that end up
-	     * getting parsed by the shell. Also, is isn't particularly future-
-	     * proof, and only functions correctly when only a single device
-	     * is paired to the user's machine.
+         * However, it isn't particularly future-proof, and only functions
+         * correctly when only a single device is paired to the user's machine.
 	     */
             process.start("sh", [
                 "-c", `kdeconnect-cli -d $(qdbus org.kde.kdeconnect /modules/kdeconnect org.kde.kdeconnect.daemon.devices) --send-sms ${msg} --destination ${dst}`
