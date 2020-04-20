@@ -4,4 +4,4 @@ To use TextConnect, you need to have KDEConnect and KDEConnect-CLI installed on 
 
 TextConnect is licensed under the terms of the GNU GPL. Right now it is in a very early state, although basic text-sending functionality does work. The roadmap includes more pretty visuals, Qt theming support, Kontact integration, and more.
 
-If you experience any problems, feel free to flag an issue on the GitLab page.
+If you experience any problems, feel free to flag an issue on the GitLab page. Although, this project is somewhat on life support because I don't have an Android phone for testing anymore.
